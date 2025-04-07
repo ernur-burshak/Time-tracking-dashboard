@@ -1,32 +1,40 @@
 const buttons = [...document.querySelectorAll(".activity-tracker__option")];
 let data = [];
 
-function activateClickedButton(button) {
-  buttons.forEach((b) => {
-    b.classList.remove("active");
+const listenToButtons = (array) => {
+  array.forEach((button) => {
+    button.addEventListener("click", () => {
+      activateClickedButton(button);
+      const clickedOption = button.dataset.option;
+      renderCards(clickedOption);
+    });
   });
-  button.classList.add("active");
-}
+};
 
-async function loadData() {
-  const response = await fetch("../data.json");
+const activateClickedButton = (button) => {
+  buttons.forEach((b) => b.classList.remove("active"));
+  button.classList.add("active");
+};
+
+const loadData = async () => {
+  // Fetch data
+  const response = await fetch("./data.json");
   const fetchedData = await response.json();
   data = fetchedData;
   buttons[1].click();
-}
+};
 
-function clearActivities() {
+const clearActivities = () => {
+  //Clear all activities from html
   const activities = document.querySelectorAll(".activity-tracker__activity");
-  activities.forEach((a) => {
-    a.remove();
-  });
-}
+  activities.forEach((a) => a.remove());
+};
 
-async function renderCards(clickedOption) {
+const renderCards = async (clickedOption) => {
   clearActivities();
   const activityTracker = document.querySelector("section.activity-tracker");
 
-  function calcTimeframe(option) {
+  const calcTimeframe = (option) => {
     if (option === "daily") {
       return "Yesterday";
     } else if (option === "weekly") {
@@ -34,7 +42,7 @@ async function renderCards(clickedOption) {
     } else if (option === "monthly") {
       return "Last Month";
     }
-  }
+  };
 
   data.forEach((activity) => {
     const name = activity.title;
@@ -44,7 +52,7 @@ async function renderCards(clickedOption) {
     const section = document.createElement("section");
     section.classList.add("activity-tracker__activity", activityClass);
     const stringToInject = `
-      <div class="activity__bg">
+        <div class="activity__bg">
             <img src="./images/icon-${activityClass}.svg" alt="">
         </div>
         <div class="activity__info">
@@ -71,21 +79,11 @@ async function renderCards(clickedOption) {
           </div>
          </div>
         </div>
-    `;
+        `;
     section.innerHTML = stringToInject;
     activityTracker.append(section);
   });
-}
-
-function listenToButtons(array) {
-  array.forEach((button) => {
-    button.addEventListener("click", () => {
-      activateClickedButton(button);
-      const clickedOption = button.dataset.option;
-      renderCards(clickedOption);
-    });
-  });
-}
+};
 
 listenToButtons(buttons);
 loadData();
