@@ -9,7 +9,7 @@ function activateClickedButton(button) {
 }
 
 async function loadData() {
-  const response = await fetch("../data.json");
+  const response = await fetch("data.json");
   const fetchedData = await response.json();
   data = fetchedData;
   buttons[1].click();
