@@ -70,10 +70,14 @@ async function loadData() {
 }
 ```
 
+understood the difference between () []
+
 ```js
 const timeframeData = activity.timeframes[clickedOption];
 const previousTimeframe = calcTimeframe(clickedOption);
 ```
+
+I found out about the append() method
 
 ```js
 activityTracker.append(section);
