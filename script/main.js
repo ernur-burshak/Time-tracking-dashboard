@@ -24,7 +24,7 @@ function clearActivities() {
 
 async function renderCards(clickedOption) {
   clearActivities();
-  const activityTracker = document.querySelector("section.activity-tracker");
+  const activityTracker = document.querySelector("main.activity-tracker");
 
   function calcTimeframe(option) {
     if (option === "daily") {
